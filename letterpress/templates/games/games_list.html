@@ -38,12 +38,26 @@
             <ul>
                 <li>
                     <img src="<%= players[0].get('gravatar') %>" width="40" />
-                    <%= players[0].get('username') %>
+
+                    <span class="username">
+                        <%= players[0].get('username') %>
+                    </span>
+
+                    <span class="points">
+                        <%= players[0].get('points') %>
+                    </span>
                 </li>
 
                 <li>
                     <img src="<%= players[1].get('gravatar') %>" width="40" />
-                    <%= players[1].get('username') %>
+
+                    <span class="username">
+                        <%= players[1].get('username') %>
+                    </span>
+
+                    <span class="points">
+                        <%= players[1].get('points') %>
+                    </span>
                 </li>
             </ul>
         </div>

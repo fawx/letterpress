@@ -62,11 +62,13 @@ def api_game_list(request):
             'players': [
                 {
                     'username': game.players.all()[0].username,
-                    'gravatar': get_gravatar(game.players.all()[0])
+                    'gravatar': get_gravatar(game.players.all()[0]),
+                    'points': len(game.letter_set.filter(owner__exact=game.players.all()[0]))
                 },
                 {
                     'username': game.players.all()[1].username,
-                    'gravatar': get_gravatar(game.players.all()[1])
+                    'gravatar': get_gravatar(game.players.all()[1]),
+                    'points': len(game.letter_set.filter(owner__exact=game.players.all()[1]))
                 }
             ]
         })
@@ -114,11 +116,13 @@ def api_game_detail(request, pk):
         'players': [
             {
                 'username': game.players.all()[0].username,
-                'gravatar': get_gravatar(game.players.all()[0])
+                'gravatar': get_gravatar(game.players.all()[0]),
+                'points': len(letters_set.filter(owner__exact=players[0]))
             },
             {
                 'username': game.players.all()[1].username,
-                'gravatar': get_gravatar(game.players.all()[1])
+                'gravatar': get_gravatar(game.players.all()[1]),
+                'points': len(letters_set.filter(owner__exact=players[1]))
             }
         ]
     }
