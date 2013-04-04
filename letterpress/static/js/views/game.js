@@ -67,24 +67,49 @@ app.GameView = Backbone.View.extend({
     submit_word: function() {
         var thisview = this;
 
-        // TODO: 
-        // only send letters that have changed inPlay
-        this.model.save(this.model.attributes, {
-            success: function(model, response, options) {
-                thisview.subviews.in_play.collection.reset();
-                thisview.subviews.in_play.render();
-                thisview.render();
-            },
-            error: function(model, xhr, options) {
-                console.log(xhr.responseText);
-            },
-            wait: true,
-        });
+
+        if ( this.my_turn() ) {
+            var word = '';
+
+            this.subviews.in_play.collection.each(function(letter) {
+                word += letter.get('character');
+            });
+
+            // TODO: 
+            // only send letters that have changed inPlay
+            this.model.save(this.model.attributes, {
+                success: function(model, response, options) {
+                    thisview.subviews.in_play.collection.reset();
+                    thisview.subviews.in_play.render();
+                    thisview.render();
+
+                    thisview.message(2, 'You played <span>' + word + '</span>.');
+                },
+                error: function(model, xhr, options) {
+                    thisview.message(1, '<span>' + word + '</span> is not a word.')
+                },
+                wait: true,
+            });
+        }
+        else {
+            thisview.message(1, "It's not your turn.");
+        }
     },
 
 
 
     my_turn: function() {
         return this.model.get('turn') == app.view.get_current_player();
-    }
-})
+    },
+
+
+
+    message: function(level, message) {
+        var $el = $('<p>');
+
+        $el.addClass('level' + level);
+        $el.html(message);
+
+        this.$el.children('.messages').append($el);
+    },
+});

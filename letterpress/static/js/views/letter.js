@@ -31,8 +31,6 @@ app.LetterView = Backbone.View.extend({
 
 
     toggle: function() {
-        if ( this.game.my_turn() ) {
-            this.model.toggle();
-        }
+        this.model.toggle();
     }
 });

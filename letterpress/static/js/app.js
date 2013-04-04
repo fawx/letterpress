@@ -1,8 +1,4 @@
 app.initialize = function() {
-    app.message = function(text) {
-        console.log(text);
-    }
-
     app.view = new app.AppView();
 }
 

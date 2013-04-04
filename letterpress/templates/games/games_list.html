@@ -17,11 +17,15 @@
 
 
 
+
+    <!-- player information -->
     <script type="text/template" id="player-template">
         <img src="<%= gravatar %>" width="50" />
     </script>
 
 
+
+    <!-- primary game board -->
     <script type="text/template" id="game-template">
         <h1>game <%= id %></h1>
 
@@ -46,8 +50,6 @@
 
 
         <div class="play">
-            <h2>letters in play</h2>
-
             <div class="letters">
             </div>
         </div>
@@ -56,10 +58,17 @@
         <div class="board">
         </div>
 
+
         <button class="save">Save</button>
+
+
+        <div class="messages">
+        </div>
     </script>
 
 
+
+    <!-- individual letters -->
     <script type="text/template" id="letter-template">
         <span class="character">
             <%= character %>
