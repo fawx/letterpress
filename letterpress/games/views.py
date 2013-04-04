@@ -53,12 +53,25 @@ def api_game_list(request):
     data = []
 
     for game in games:
+        # todo
+        # move to model, replace with to_json
+        letters_set = game.letter_set.all()
+        letters = []
+
+        for letter in letters_set:
+            letters.append({
+                'id': letter.pk,
+                'character': letter.character,
+                'locked': letter.locked,
+                'owner': letter.get_owner(),
+            })
+
         data.append({
             'id': game.pk,
             'turn': game.turn.username,
             'playedOut': game.played_out,
             'completed': game.completed,
-            'letters': [{'id': l.id, 'character': l.character, 'locked': l.locked, 'owner': l.get_owner() } for l in Letter.objects.filter(game=game.pk)],
+            'letters': letters,
             'players': [
                 {
                     'username': game.players.all()[0].username,
@@ -160,12 +173,29 @@ def game_update(request, pk):
 
         if word_is_valid:
             for letter in played_letters:
+                l = letters_set.get(pk=letter['id'])
                 # TODO
                 # use a key instead of a plain email address
                 # make sure the letter isn't locked
-                l = letters_set.get(pk=letter['id'])
-                l.owner = game.players.get(username=request_json['turn'])
-                l.save()
+                # don't identify by the letter id from the request json
+                if not l.locked:
+                    l.owner = game.players.get(username=request_json['turn'])
+                    l.save()
+
+            # update locked letters
+            i = 0
+            for letter in letters_set:
+                if letter.owner:
+                    north = True if (i < 5) or (i > 4 and letters_set[i - 5].owner == letter.owner) else False
+                    east = True if (i % 5 == 4) or (i % 5 != 4 and letters_set[i + 1].owner == letter.owner) else False
+                    south = True if (i > 19) or (i < 20 and letters_set[i + 5].owner == letter.owner) else False
+                    west = True if (i % 5 == 0) or (i % 5 != 0 and letters_set[i - 1].owner == letter.owner) else False
+
+                    letter.locked = (north and south and east and west)
+                    letter.save()
+
+
+                    i += 1
 
             game.next_turn()
 

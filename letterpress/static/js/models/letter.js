@@ -4,7 +4,6 @@ app.Letter = Backbone.Model.extend({
         owner: undefined,
         // TODO:
         // get rid of these attributes since they serve no purpose in the database
-        color: false,
         inPlay: false,
         locked: false,
     },
