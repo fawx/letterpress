@@ -2,7 +2,7 @@ app.Game = Backbone.Model.extend({
     defaults: {
         players: [],
         letters: [],
-        used: [],
+        played_out: [],
         turn: undefined,
         completed: false,
         play: [],

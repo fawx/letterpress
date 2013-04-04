@@ -69,7 +69,7 @@ def api_game_list(request):
         data.append({
             'id': game.pk,
             'turn': game.turn.username,
-            'playedOut': game.played_out,
+            'played_out': game.played_out,
             'completed': game.completed,
             'letters': letters,
             'players': [
@@ -123,7 +123,7 @@ def api_game_detail(request, pk):
     data = {
         'id': game.pk,
         'turn': game.turn.username,
-        'playedOut': game.played_out,
+        'played_out': game.played_out,
         'completed': game.completed,
         'letters': letters,
         'players': [
@@ -197,6 +197,7 @@ def game_update(request, pk):
 
                     i += 1
 
+            game.played_out = (game.played_out if game.played_out != None else '') + word + ' '
             game.next_turn()
 
         return word_is_valid
