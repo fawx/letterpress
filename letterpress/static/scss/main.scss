@@ -1,0 +1,103 @@
+@import 'normalize';
+@import 'css3';
+@import 'global';
+
+
+$red: #faa;
+$blue: #adf;
+
+
+.game {
+    .board,
+    .play {
+        ul {
+            list-style: none outside none;
+            margin: 0;
+            overflow: hidden;
+            padding: 0;
+
+            li {
+                background: #ddd;
+                border: 1px solid white;
+                cursor: pointer;
+                color: #444;
+                float: left;
+                height: 50px;
+                line-height: 50px;
+                position: relative;
+                text-align: center;
+                width: 50px;
+
+                &.theirs { 
+                    background: $red; 
+
+                    &.locked { background: $red - 30; }
+                }
+
+                &.mine { 
+                    background: $blue; 
+
+                    &.locked { background: $blue - 30; }
+                }
+
+                // debug shit
+                .in-play,
+                .owner {
+                    font-size: 8px;
+                    line-height: 8px;
+                    position: absolute;
+                    right: 3px;
+                }
+
+                .in-play {
+                    top: 3px;
+                }
+
+                .owner {
+                    bottom: 3px;
+                }
+            }
+        }
+    }
+
+    .play {
+        height: 120px;
+        margin: 15px 0;
+    }
+
+    .board {
+        ul {
+            overflow: hidden;
+            width: 260px;
+
+            li.in-play {
+                background: white !important;
+                color: #eee;
+            }
+        }
+    }
+
+
+    .players {
+        .player {
+            background: #ddd;
+            padding: 10px 20px;
+        }
+
+        .red {
+            border: 2px solid $red;
+
+            &.active { 
+                background: $red;
+            }
+        }
+
+        .blue {
+            border: 2px solid $blue;
+
+            &.active { 
+                background: $blue;
+            }
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{% extends 'common/base.html' %}
+
+
+
+{% block content %}
+    <h1>New Game</h1>
+
+    <form method="post" action="{% url 'letterpress.games.views.create' %}">
+        {% csrf_token %}
+
+        <select name="username">
+            {% for user in users %}
+                <option value="{{ user.username }}">
+                    {{ user.username }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <input type="submit" value="create" />
+    </form>
+{% endblock %}

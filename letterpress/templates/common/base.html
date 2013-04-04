@@ -1,0 +1,77 @@
+<!doctype html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="csrf-token" content="{{ csrf_token }}" />
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/main.css" />
+        <script src="{{ STATIC_URL }}js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+
+
+
+    <body>
+        <header>
+            <div class="auth">
+                {% if user.is_authenticated %}
+                    {{ user.username }}
+                    <a href="{% url 'django.contrib.auth.views.logout' %}">Log out</a>
+                {% else %}
+                    <a href="{% url 'django.contrib.auth.views.login' %}">Log in</a>
+                    
+                    <a href="{% url 'letterpress.users.views.create' %}">Create an account</a>
+                {% endif %}
+            </div>
+        </header>
+
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery.js"><\/script>')</script>
+
+        <!-- initialize -->
+        <script> var app = app || {}; </script>
+
+        <!-- vendor scripts -->
+        <script src="{{ STATIC_URL }}js/plugins.js"></script>
+        <script src="{{ STATIC_URL }}js/vendor/underscore.js"></script>
+        <script src="{{ STATIC_URL }}js/vendor/backbone.js"></script>
+        <script src="{{ STATIC_URL }}js/vendor/backbone-localstorage.js"></script>
+        <script src="{{ STATIC_URL }}js/vendor/inflection.js"></script>
+
+        <!-- letters -->
+        <script src="{{ STATIC_URL }}js/models/letter.js"></script>
+        <script src="{{ STATIC_URL }}js/collections/letters.js"></script>
+
+        <!-- in-play area -->
+        <script src="{{ STATIC_URL }}js/collections/play.js"></script>
+
+        <!-- player objects -->
+        <script src="{{ STATIC_URL }}js/models/player.js"></script>
+
+        <!-- game objects -->
+        <script src="{{ STATIC_URL }}js/models/game.js"></script>
+        <script src="{{ STATIC_URL }}js/collections/games.js"></script>
+
+        <!-- views -->
+        <script src="{{ STATIC_URL }}js/views/player.js"></script>
+        <script src="{{ STATIC_URL }}js/views/letter.js"></script>
+        <script src="{{ STATIC_URL }}js/views/game.js"></script>
+        <script src="{{ STATIC_URL }}js/views/games.js"></script>
+        <script src="{{ STATIC_URL }}js/views/play.js"></script>
+        <script src="{{ STATIC_URL }}js/views/app.js"></script>
+
+        <!-- main script -->
+        <script src="{{ STATIC_URL }}js/app.js"></script>
+    </body>
+</html>

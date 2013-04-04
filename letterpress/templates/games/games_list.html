@@ -1,0 +1,76 @@
+{% extends 'common/base.html' %}
+
+
+{% block content %}
+    <a href="{% url 'letterpress.games.views.create' %}">Create a new game</a>
+
+    
+    <section id="player-info">
+    </section>
+
+
+    <section id="games">
+    </section>
+
+
+
+
+
+
+    <script type="text/template" id="player-template">
+        <img src="<%= gravatar %>" width="50" />
+    </script>
+
+
+    <script type="text/template" id="game-template">
+        <h1>game <%= id %></h1>
+
+
+        <div class="players">
+            <p class="turn">
+                <%= ( turn == app.view.get_current_player() ? 'It is your turn!' : 'It\'s not your turn.' ) %>
+            </p>
+
+            <ul>
+                <li>
+                    <img src="<%= players[0].get('gravatar') %>" width="40" />
+                    <%= players[0].get('username') %>
+                </li>
+
+                <li>
+                    <img src="<%= players[1].get('gravatar') %>" width="40" />
+                    <%= players[1].get('username') %>
+                </li>
+            </ul>
+        </div>
+
+
+        <div class="play">
+            <h2>letters in play</h2>
+
+            <div class="letters">
+            </div>
+        </div>
+
+
+        <div class="board">
+        </div>
+
+        <button class="save">Save</button>
+    </script>
+
+
+    <script type="text/template" id="letter-template">
+        <span class="character">
+            <%= character %>
+        </span>
+
+        <span class="owner">
+            <%= (owner ? owner.toString().substr(0, 3) : '') %>
+        </span>
+
+        <span class="in-play">
+            <%= inPlay %>
+        </span>
+    </script>
+{% endblock %}
