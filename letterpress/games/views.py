@@ -58,13 +58,16 @@ def api_game_list(request):
         letters_set = game.letter_set.all()
         letters = []
 
+        i = 0;
         for letter in letters_set:
             letters.append({
                 'id': letter.pk,
                 'character': letter.character,
                 'locked': letter.locked,
-                'owner': letter.get_owner(),
+                'owner': letter.get_owner()
             })
+
+            i = i + 1
 
         data.append({
             'id': game.pk,
@@ -195,7 +198,7 @@ def game_update(request, pk):
                     letter.save()
 
 
-                    i += 1
+                i += 1
 
             game.played_out = (game.played_out if game.played_out != None else '') + word + ' '
             game.next_turn()
