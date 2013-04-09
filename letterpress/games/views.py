@@ -171,10 +171,18 @@ def game_update(request, pk):
 
         # sort the letters by their position in the play view
         played_letters = sorted(played_letters, key=lambda letter: letter['position'])
-        word = ''.join([letter['character'] for letter in played_letters])
-        word_is_valid = verify_word(word)
 
-        if word_is_valid:
+        # create a string from the letters
+        word = ''.join([letter['character'] for letter in played_letters])
+
+        # make sure the word hasn't been used before
+        word_is_new = False if game.played_out.split(' ').count(word) > 0 else True
+
+        # check the dictionary
+        word_is_valid = verify_word(word)
+        
+
+        if word_is_valid and word_is_new:
             for letter in played_letters:
                 l = letters_set.get(pk=letter['id'])
                 # TODO
@@ -203,6 +211,6 @@ def game_update(request, pk):
             game.played_out = (game.played_out if game.played_out != None else '') + word + ' '
             game.next_turn()
 
-        return word_is_valid
+        return word_is_valid and word_is_new
     else:
         return False

@@ -86,7 +86,7 @@ app.GameView = Backbone.View.extend({
                     thisview.message(2, 'You played <span>' + word + '</span>.');
                 },
                 error: function(model, xhr, options) {
-                    thisview.message(1, '<span>' + word + '</span> is not a word.')
+                    thisview.message(1, '<span>' + word + '</span> is not a valid word (either not in dictionary or has been played before)')
                 },
                 wait: true,
             });
