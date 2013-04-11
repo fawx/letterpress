@@ -1,5 +1,5 @@
 app.Games = Backbone.Collection.extend({
-    url: '/games/api/',
+    url: '/api/games/',
 
     model: app.Game
 });

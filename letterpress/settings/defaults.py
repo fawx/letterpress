@@ -133,6 +133,7 @@ INSTALLED_APPS = (
     'inflection',
     'letterpress.games',
     'letterpress.users',
+    'letterpress.api',
 )
 
 # A sample logging configuration. The only tangible logging
