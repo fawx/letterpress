@@ -10,6 +10,9 @@ from sowpods.verify_word import verify_word
 
 
 
+# TODO:
+# separate api views from web views
+
 
 def list(request):
     return render(request, 'games/games_list.html')
@@ -53,7 +56,7 @@ def api_game_list(request):
     data = []
 
     for game in games:
-        # todo
+        # TODO:
         # move to model, replace with to_json
         letters_set = game.letter_set.all()
         letters = []
@@ -95,9 +98,6 @@ def api_game_list(request):
 
 
 
-# TODO:
-# clean up everything below this line
-# build some decent errors
 def api_game_detail(request, pk):
     """
     details about a particular game
@@ -176,13 +176,13 @@ def game_update(request, pk):
         word = ''.join([letter['character'] for letter in played_letters])
 
         # make sure the word hasn't been used before
-        word_is_new = False if game.played_out.split(' ').count(word) > 0 else True
+        word_is_new = not game.been_played(word)
 
         # check the dictionary
-        word_is_valid = verify_word(word)
+        in_dictionary = verify_word(word)
         
 
-        if word_is_valid and word_is_new:
+        if in_dictionary and word_is_new:
             for letter in played_letters:
                 l = letters_set.get(pk=letter['id'])
                 # TODO
@@ -211,6 +211,6 @@ def game_update(request, pk):
             game.played_out = (game.played_out if game.played_out != None else '') + word + ' '
             game.next_turn()
 
-        return word_is_valid and word_is_new
+        return in_dictionary and word_is_new
     else:
         return False

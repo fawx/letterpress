@@ -130,6 +130,7 @@ INSTALLED_APPS = (
     'south',
     'debug_toolbar',
     'sowpods',
+    'inflection',
     'letterpress.games',
     'letterpress.users',
 )

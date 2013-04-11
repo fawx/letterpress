@@ -1,3 +1,4 @@
+from inflection import singularize, pluralize
 from django.db import models
 from django.contrib.auth.models import User
 import random
@@ -12,7 +13,7 @@ class Game(models.Model):
     players = models.ManyToManyField(User, null=True)
     turn = models.ForeignKey(User, related_name='turn+', null=True)
     completed = models.BooleanField(default=False)
-    played_out = models.TextField(null=True, blank=True)
+    played_out = models.TextField(null=True, blank=True, default='')
 
 
 
@@ -45,8 +46,17 @@ class Game(models.Model):
         
         return self 
 
-    # TODO:
-    # def to_json()
+
+    def been_played(self, word):
+        """
+        look for an instance of word, singular or plural, in the string words ("candy pie cookie")
+        """
+        words = self.played_out or ''
+        words = words.split(' ')
+
+        return True if ((words.count(word) > 0) or 
+                        (words.count( singularize(word) ) > 0) or 
+                        (words.count( pluralize(word) ) > 0)) else False
 
 
 
@@ -72,7 +82,3 @@ class Letter(models.Model):
 
     class Meta:
         ordering = ['pk',]
-
-
-    # TODO:
-    # def to_json()
