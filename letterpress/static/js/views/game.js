@@ -19,7 +19,13 @@ app.GameView = Backbone.View.extend({
     },
 
 
+
     initialize: function() {
+        this.eventhub = _.extend({}, Backbone.Events);
+
+        this.eventhub.on('error', this.error);
+        this.eventhub.on('message', this.message);
+
     },
 
 
@@ -93,16 +99,16 @@ app.GameView = Backbone.View.extend({
                 success: function(model, response, options) {
                     thisview.render();
 
-                    thisview.message(2, 'You played <span>' + word + '</span>.');
+                    thisview.eventhub.trigger('message', 'You played <span>' + word + '</span>.');
                 },
                 error: function(model, xhr, options) {
-                    thisview.message(1, '<span>' + word + '</span> is not a valid word (either not in dictionary or has been played before)')
+                    thisview.eventhub.trigger('error', '<span>' + word + '</span> is not a valid word (either not in dictionary or has been played before)')
                 },
                 wait: true,
             });
         }
         else {
-            thisview.message(1, "It's not your turn.");
+            thisview.eventhub.trigger('error', 'It\'s not your turn.');
         }
     },
 
@@ -114,12 +120,13 @@ app.GameView = Backbone.View.extend({
 
 
 
-    message: function(level, message) {
-        var $el = $('<p>');
+    error: function(message) {
+        console.log('error: ' + message);
+    },
 
-        $el.addClass('level' + level);
-        $el.html(message);
 
-        this.$el.children('.messages').append($el);
+
+    message: function(message) {
+        console.log('message: ' + message);
     },
 });
