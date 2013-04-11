@@ -20,12 +20,6 @@ app.GameView = Backbone.View.extend({
 
 
     initialize: function() {
-        this.subviews.in_play = new app.PlayView({ 
-            tagName: 'ul', 
-            collection: new app.Play() 
-        });
-
-        this.subviews.in_play.listenTo(this.model.get('letters'), 'change:inPlay', this.subviews.in_play.update);
     },
 
 
@@ -33,6 +27,24 @@ app.GameView = Backbone.View.extend({
     render: function() {
         var $letters = $('<ul>'),
             thisview = this;
+
+
+        
+
+        // this should be in initialize()
+        // maybe?  where's the harm if it's created every time the board is rendered?
+        //
+        var play = new app.Play();
+
+        this.subviews.in_play = new app.PlayView({ 
+            tagName: 'ul', 
+            collection: play
+        });
+
+        this.subviews.in_play.listenTo(this.model.get('letters'), 'change:inPlay', this.subviews.in_play.update);
+        //
+        ////////////////////////////////
+
 
 
         // create the template
@@ -79,8 +91,6 @@ app.GameView = Backbone.View.extend({
             // only send letters that have changed inPlay
             this.model.save(this.model.attributes, {
                 success: function(model, response, options) {
-                    thisview.subviews.in_play.collection.reset();
-                    thisview.subviews.in_play.render();
                     thisview.render();
 
                     thisview.message(2, 'You played <span>' + word + '</span>.');
